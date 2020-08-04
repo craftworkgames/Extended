@@ -4,7 +4,7 @@
 
 * Status: Rejected
 * Deciders: [@lithiumtoast](https://github.com/lithiumtoast)
-* Date: [2020-08-DD] <!-- When the decision was last updated -->
+* Date: [2020-08-01] <!-- YYYY-MM-DD when the decision was last updated -->
 
 Technical Story: [description | ticket/issue URL] <!-- optional -->
 
