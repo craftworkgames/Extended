@@ -2,15 +2,15 @@
 
 # Geometry Shaders
 
-* Status: Rejected
+* Status: TBD
 * Deciders: [@lithiumtoast](https://github.com/lithiumtoast)
 * Date: 2020-08-01 <!-- YYYY-MM-DD when the decision was last updated -->
 
-Technical Story: https://github.com/craftworkgames/Ankura/issues/1
+Communication: https://github.com/craftworkgames/Extended/issues/1
 
 ## Context and Problem Statement
 
-Should Ankura support geometry shaders?
+Should `Extended` support geometry shaders?
 
 ## Decision Drivers <!-- optional -->
 
@@ -24,20 +24,12 @@ Should Ankura support geometry shaders?
 ## Considered Options
 
 * Do not support geometry shaders.
-* Support geometry shaders but only allow their use for specific graphics APIs which support them such as OpenGL and DirectX. It would then be up to the developer to decide whether to use geometry shaders for their game or not based on their desired target platforms and target hardware.
+* Support geometry shaders, but only allow their use for specific graphics APIs.
+    - Use a "feature flag"; the developer would be responsible for deciding whether geometry shaders are to be enabled or available for *their* app on the desired target platform and hardware.
 
 ## Decision Outcome
 
-Chosen option: "Do not support geometry shaders", because (1) Ankura is aimed to support multiple platforms in a consistent fashion; (2) the API of Ankura should remain minimal so that developers have less cognitive load.
-
-### Positive Consequences <!-- optional -->
-
-* Ankura can support Metal and generally continue to support multiple graphic APIs for multiple platforms. 
-* The amount of knowledge the developer needs to know to use and be effective with Ankura decreases.
-
-### Negative Consequences <!-- optional -->
-
-* Developers must use other means to solve problems which geometry shaders can solve.
+None taken yet.
 
 ## Links <!-- optional -->
 
