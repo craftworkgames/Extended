@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace />
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>9</LangVersion>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DefineConstants>TRACE</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Extended\Native\Native.Library.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\Native\Native.Platform.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\Native\Native.Module.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\Native\Native.Loop.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\Kernel\Native.Library.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\App\Native.Library.cs">
+        <DependentUpon>Native.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\App\App.Log.cs">
+        <DependentUpon>App.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Extended\App\App.Trace.cs">
+        <DependentUpon>App.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+  
+</Project>

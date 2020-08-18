@@ -1,0 +1,11 @@
+<Project>
+
+    <!-- Import common project settings -->
+    <Import Project="../Common.props" />
+
+    <!-- Common production project settings -->
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project>
+
+    <!-- Default project settings -->
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace />
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="*.csproj.DotSettings" />
+    </ItemGroup>
+
+    <!-- Import code analysis project settings -->
+    <Import Project="../analysis/CodeAnalysis.props" />
+
+</Project>

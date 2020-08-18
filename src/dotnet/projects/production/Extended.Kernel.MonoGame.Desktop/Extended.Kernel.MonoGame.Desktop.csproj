@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- C# -->
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+        <RootNamespace />
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <Copyright>Copyright © 2020 craftworkgames</Copyright>
+        <AssemblyName>Extended.Kernel.Driver</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+      <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Extended\Native\InternalNative.Platform.cs">
+        <DependentUpon>InternalNative.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Extended.Kernel\Extended.Kernel.csproj" />
+    </ItemGroup>
+
+</Project>

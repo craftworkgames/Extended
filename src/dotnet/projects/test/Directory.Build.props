@@ -1,0 +1,20 @@
+<Project>
+
+    <!-- Import common project settings -->
+    <Import Project="../Common.props" />
+
+    <!-- Common test project settings -->
+    <PropertyGroup>
+        <RootNamespace />
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <!-- Common test project package references -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="xunit" Version="2.4.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+        <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    </ItemGroup>
+
+</Project>

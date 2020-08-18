@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lstranks/Programming/Ankura/src/c/ankura.c
+ankura.h
+/Users/lstranks/Programming/Ankura/src/c/ankura.h
+stdio.h
+-
+
+/Users/lstranks/Programming/Ankura/src/c/ankura.h
+inc/api_types.h
+/Users/lstranks/Programming/Ankura/src/c/inc/api_types.h
+
+/Users/lstranks/Programming/Ankura/src/c/inc/api_types.h
+stdlib.h
+-
+stdbool.h
+-
+

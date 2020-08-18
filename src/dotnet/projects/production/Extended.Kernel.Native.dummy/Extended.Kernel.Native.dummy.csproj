@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- C# -->
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+        <RootNamespace />
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <Copyright>Copyright © 2020 craftworkgames</Copyright>
+        <AssemblyName>Extended.Native.Driver</AssemblyName>
+    </PropertyGroup>
+
+    <!-- NuGet -->
+    <PropertyGroup>
+        <Description>Ankura native (C) library for the Linux.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/craftworkgames/ankura</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/craftworkgames/ankura</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>ankura c# csharp dotnet .net native c library</PackageTags>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>false</IncludeSymbols>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Update="Extended\Native\InternalNative.Platform.cs">
+        <DependentUpon>InternalNative.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Extended.Kernel\Extended.Kernel.csproj" />
+    </ItemGroup>
+
+</Project>

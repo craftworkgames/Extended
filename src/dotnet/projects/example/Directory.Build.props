@@ -1,0 +1,13 @@
+<Project>
+
+    <!-- Import common project settings -->
+    <Import Project="../Common.props" />
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <IsPackable>false</IsPackable>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+    </PropertyGroup>
+    
+</Project>
