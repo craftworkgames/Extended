@@ -1,0 +1,17 @@
+<Project>
+
+    <!-- Ruleset -->
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)/Default.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    
+    <!-- StyleCop -->
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)/StyleCop/StyleCop.json">
+            <Link>Properties/StyleCop.json</Link>
+            <Visible>false</Visible>
+        </AdditionalFiles>
+    </ItemGroup>
+
+</Project>
