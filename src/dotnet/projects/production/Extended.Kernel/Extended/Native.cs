@@ -8,17 +8,19 @@ using System.Security;
 
 namespace Extended
 {
-    [SuppressMessage("ReSharper", "SA1300", Justification = "Original names.")]
-    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "Orignal names.")]
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "API.")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "API.")]
-    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "API.")]
-    public static partial class Native
+    /// <summary>
+    ///     Provides access to specific <see cref="NativePlatform" /> functionality and information.
+    /// </summary>
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+    public static class Native
     {
+        public static bool Is64Bit => Environment.Is64BitProcess;
+
         [SuppressMessage("ReSharper", "CommentTypo", Justification = "Flags.")]
         public static IntPtr LoadLibrary(string libraryPath)
         {
-            App.BeginTrace("Loading library", ("path", libraryPath));
+            Trace.Begin("Loading library", ("path", libraryPath));
 
             var platform = Kernel.Platform;
 
@@ -32,11 +34,11 @@ namespace Extended
 
             if (libraryPointer != IntPtr.Zero)
             {
-                App.EndTraceSuccess(("libraryPointer", $"{libraryPointer.ToInt64():X}"));
+                Trace.EndWithSuccess(("libraryPointer", $"{libraryPointer.ToInt64():X}"));
             }
             else
             {
-                App.EndTraceFailure();
+                Trace.EndWithFailure();
             }
 
             return libraryPointer;
@@ -45,7 +47,7 @@ namespace Extended
         [SuppressMessage("ReSharper", "CommentTypo", Justification = "Flags.")]
         public static void FreeLibrary(IntPtr libraryPointer)
         {
-            App.BeginTrace("Freeing library", ("libraryPointer", $"{libraryPointer.ToInt64():X}"));
+            Trace.Begin("Freeing library", ("libraryPointer", $"{libraryPointer.ToInt64():X}"));
 
             var platform = Kernel.Platform;
 
@@ -60,38 +62,38 @@ namespace Extended
 
             if (errorCode != 0)
             {
-                App.EndTraceSuccess();
+                Trace.EndWithSuccess();
             }
             else
             {
-                App.EndTraceFailure(("errorCode", errorCode));
+                Trace.EndWithFailure(("errorCode", errorCode));
             }
         }
 
-        public static IntPtr GetLibraryFunctionPointer(IntPtr libaryPointer, string functionName)
+        public static IntPtr GetLibraryFunctionPointer(IntPtr libraryPointer, string functionName)
         {
-            App.BeginTrace(
+            Trace.Begin(
                 "Loading library function pointer",
-                ("libraryPointer", $"{libaryPointer.ToInt64():X}"),
+                ("libraryPointer", $"{libraryPointer.ToInt64():X}"),
                 ("functionName", functionName));
 
             var platform = Kernel.Platform;
 
             var functionPointer = platform switch
             {
-                NativePlatform.Linux => libdl.dlsym(libaryPointer, functionName),
-                NativePlatform.macOS => libSystem.dlsym(libaryPointer, functionName),
-                NativePlatform.Windows => Kernel32.GetProcAddress(libaryPointer, functionName),
+                NativePlatform.Linux => libdl.dlsym(libraryPointer, functionName),
+                NativePlatform.macOS => libSystem.dlsym(libraryPointer, functionName),
+                NativePlatform.Windows => Kernel32.GetProcAddress(libraryPointer, functionName),
                 _ => IntPtr.Zero
             };
 
             if (functionPointer != IntPtr.Zero)
             {
-                App.EndTraceSuccess(("functionPointer", $"{functionPointer.ToInt64():X}"));
+                Trace.EndWithSuccess(("functionPointer", $"{functionPointer.ToInt64():X}"));
             }
             else
             {
-                App.EndTraceFailure();
+                Trace.EndWithFailure();
             }
 
             return functionPointer;
@@ -121,6 +123,8 @@ namespace Extended
                 : Marshal.GetDelegateForFunctionPointer<TDelegate>(functionHandle)) !;
         }
 
+        [SuppressUnmanagedCodeSecurity]
+        [SuppressMessage("ReSharper", "SA1300", Justification = "Native API.")]
         private static class libdl
         {
             private const string LibraryName = "libdl";
@@ -151,6 +155,7 @@ namespace Extended
         }
 
         [SuppressUnmanagedCodeSecurity]
+        [SuppressMessage("ReSharper", "SA1300", Justification = "Native API.")]
         private static class libSystem
         {
             private const string LibraryName = "libSystem";

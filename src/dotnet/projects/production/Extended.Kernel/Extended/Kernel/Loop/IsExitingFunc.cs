@@ -3,5 +3,5 @@
 
 namespace Extended
 {
-    public delegate void LoopCallback();
+    public delegate bool IsExitingFunc();
 }

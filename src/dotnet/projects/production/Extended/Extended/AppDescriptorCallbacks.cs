@@ -3,11 +3,10 @@
 
 namespace Extended
 {
-    public struct AppDescriptor
+    public struct AppDescriptorCallbacks
     {
-        public LogCallback LogCallback;
-        public LoopCallback LoopCallback;
-        public QuitCallback QuitCallback;
-        public KernelModuleTypes ModuleTypes;
+        public LoopCallback Loop;
+        public LogCallback? Log;
+        public QuitCallback? Quit;
     }
 }

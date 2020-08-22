@@ -2,18 +2,17 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace Extended
 {
-    [SuppressMessage("ReSharper", "PartialMethodWithSinglePart", Justification = "Developer provided.")]
-    [SuppressMessage("ReSharper", "PartialTypeWithSinglePart", Justification = "Developer provided.")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API.")]
-    public static partial class App
+    /// <summary>
+    ///     Provides logging functionality.
+    /// </summary>
+    public static partial class Log
     {
+        internal static LogCallback? Callback;
+
         private const long AnyCategory = long.MaxValue;
 
         private static int _logLevel;
@@ -70,7 +69,7 @@ namespace Extended
         /// <param name="message">The <see cref="string" /> message.</param>
         /// <param name="category">The <see cref="long" /> category bit flags enum.</param>
         /// <typeparam name="TCategory">The type of the <see cref="long" /> category bit flags enum value.</typeparam>
-        public static void LogInfo<TCategory>(string message, TCategory category)
+        public static void Info<TCategory>(string message, TCategory category)
             where TCategory : unmanaged, Enum
         {
             Write(GetLongCategory(category), LogLevel.Info, message);
@@ -80,7 +79,7 @@ namespace Extended
         ///     Logs a specified <see cref="Extended.LogLevel.Info" /> message for any category.
         /// </summary>
         /// <param name="message">The <see cref="string" /> message.</param>
-        public static void LogInfo(string message)
+        public static void Info(string message)
         {
             Write(AnyCategory, LogLevel.Info, message);
         }
@@ -91,7 +90,7 @@ namespace Extended
         /// <param name="message">The <see cref="string" /> message.</param>
         /// <param name="category">The <see cref="long" /> category bit flags enum.</param>
         /// <typeparam name="TCategory">The type of the <see cref="long" /> category bit flags enum value.</typeparam>
-        public static void LogWarning<TCategory>(string message, TCategory category)
+        public static void Warning<TCategory>(string message, TCategory category)
             where TCategory : unmanaged, Enum
         {
             Write(GetLongCategory(category), LogLevel.Warning, message);
@@ -101,7 +100,7 @@ namespace Extended
         ///     Logs a specified <see cref="Extended.LogLevel.Warning" /> message for any category.
         /// </summary>
         /// <param name="message">The <see cref="string" /> message.</param>
-        public static void LogWarning(string message)
+        public static void Warning(string message)
         {
             Write(AnyCategory, LogLevel.Warning, message);
         }
@@ -112,7 +111,7 @@ namespace Extended
         /// <param name="message">The <see cref="string" /> message.</param>
         /// <param name="category">The <see cref="long" /> category bit flags enum.</param>
         /// <typeparam name="TCategory">The type of the <see cref="long" /> category bit flags enum value.</typeparam>
-        public static void LogError<TCategory>(string message, TCategory category)
+        public static void Error<TCategory>(string message, TCategory category)
             where TCategory : unmanaged, Enum
         {
             Write(GetLongCategory(category), LogLevel.Error, message);
@@ -122,7 +121,7 @@ namespace Extended
         ///     Logs a specified <see cref="Extended.LogLevel.Error" /> message for any category.
         /// </summary>
         /// <param name="message">The <see cref="string" /> message.</param>
-        public static void LogError(string message)
+        public static void Error(string message)
         {
             Write(AnyCategory, LogLevel.Error, message);
         }
@@ -133,7 +132,7 @@ namespace Extended
         /// <param name="message">The <see cref="string" /> message.</param>
         /// <param name="category">The <see cref="long" /> category bit flags enum.</param>
         /// <typeparam name="TCategory">The type of the <see cref="long" /> category bit flags enum value.</typeparam>
-        public static void LogCritical<TCategory>(string message, TCategory category)
+        public static void Critical<TCategory>(string message, TCategory category)
             where TCategory : unmanaged, Enum
         {
             Write(GetLongCategory(category), LogLevel.Critical, message);
@@ -143,7 +142,7 @@ namespace Extended
         ///     Logs a specified <see cref="Extended.LogLevel.Critical" /> message for any category.
         /// </summary>
         /// <param name="message">The <see cref="string" /> message.</param>
-        public static void LogCritical(string message)
+        public static void Critical(string message)
         {
             Write(AnyCategory, LogLevel.Critical, message);
         }
@@ -168,7 +167,7 @@ namespace Extended
                 return;
             }
 
-            OnLog(level, message, category);
+            Callback?.Invoke(level, message, category);
         }
     }
 }

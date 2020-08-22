@@ -7,66 +7,66 @@ using System.Text;
 
 namespace Extended
 {
-    public static partial class App
+    public static class Trace
     {
         private static readonly StringBuilder _traceSummary = new StringBuilder();
         private static readonly StringBuilder _traceParameters = new StringBuilder();
         private static readonly StringBuilder _traceMessage = new StringBuilder();
 
         [Conditional("TRACE")]
-        internal static void BeginTrace(string summary)
+        internal static void Begin(string summary)
         {
             CreateBeginTraceMessage(summary, out var message);
-            LogInfo(message);
+            Log.Info(message);
         }
 
         [Conditional("TRACE")]
-        internal static void BeginTrace<T>(string summary, (string name, T value) param)
+        internal static void Begin<T>(string summary, (string name, T value) param)
         {
             var message = CreateBeginTraceMessage(summary, param);
-            LogInfo(message);
+            Log.Info(message);
         }
 
         [Conditional("TRACE")]
-        internal static void BeginTrace<T1, T2>(string summary, (string name, T1 value) param1, (string name, T2 value) param2)
+        internal static void Begin<T1, T2>(string summary, (string name, T1 value) param1, (string name, T2 value) param2)
         {
             var message = CreateBeginTraceMessage(summary, param1, param2);
-            LogInfo(message);
+            Log.Info(message);
         }
 
         [Conditional("TRACE")]
-        internal static void EndTraceSuccess()
+        internal static void EndWithSuccess()
         {
             var message = CreateTraceSuccessMessage();
-            LogInfo(message);
+            Log.Info(message);
         }
 
         [Conditional("TRACE")]
-        internal static void EndTraceSuccess<T>((string name, T value) param)
+        internal static void EndWithSuccess<T>((string name, T value) param)
         {
             var message = CreateTraceSuccessMessage(param);
-            LogInfo(message);
+            Log.Info(message);
         }
 
         [Conditional("TRACE")]
-        internal static void EndTraceFailure()
+        internal static void EndWithFailure()
         {
             var message = CreateTraceFailureMessage();
-            LogCritical(message);
+            Log.Critical(message);
         }
 
         [Conditional("TRACE")]
-        internal static void EndTraceFailure(Exception exception)
+        internal static void EndWithFailure(Exception exception)
         {
             var message = CreateTraceFailureMessage(exception);
-            LogCritical(message);
+            Log.Critical(message);
         }
 
         [Conditional("TRACE")]
-        internal static void EndTraceFailure<T>((string name, T value) param)
+        internal static void EndWithFailure<T>((string name, T value) param)
         {
             var message = CreateTraceFailureMessage(param);
-            LogCritical(message);
+            Log.Critical(message);
         }
 
         private static void CreateBeginTraceMessage(string summary, out string message)

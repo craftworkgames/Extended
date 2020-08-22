@@ -28,18 +28,6 @@
       <Compile Update="Extended\Native\Native.Loop.cs">
         <DependentUpon>Native.cs</DependentUpon>
       </Compile>
-      <Compile Update="Extended\Kernel\Native.Library.cs">
-        <DependentUpon>Native.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Extended\App\Native.Library.cs">
-        <DependentUpon>Native.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Extended\App\App.Log.cs">
-        <DependentUpon>App.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Extended\App\App.Trace.cs">
-        <DependentUpon>App.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
   
 </Project>

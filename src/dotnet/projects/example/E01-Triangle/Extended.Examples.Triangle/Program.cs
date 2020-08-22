@@ -10,20 +10,20 @@ namespace Extended.Examples.Triangle
         private static void Main()
         {
             var appDescriptor = default(AppDescriptor);
-            appDescriptor.LogCallback = Log;
-            appDescriptor.LoopCallback = GameLoop;
+            appDescriptor.Callbacks.Log = Log;
+            appDescriptor.Callbacks.Loop = GameLoop;
 
             App.Setup(appDescriptor);
             App.Run();
         }
 
-        private static void GameLoop()
+        private static void GameLoop(IsExitingFunc isExiting)
         {
             while (true)
             {
                 App.PumpEvents();
 
-                if (App.IsExiting)
+                if (isExiting())
                 {
                     break;
                 }

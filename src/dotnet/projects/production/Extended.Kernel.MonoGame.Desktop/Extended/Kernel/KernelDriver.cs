@@ -25,10 +25,7 @@ namespace Extended
         public static NativePlatform Platform => GetNativePlatform();
 
         [UsedImplicitly]
-        public static bool IsExiting => GetIsExiting();
-
-        [UsedImplicitly]
-        public static KernelModuleTypes Setup(KernelModuleTypes moduleTypes, object? param = null)
+        public static KernelModules Setup(KernelModules moduleTypes, object? param = null)
         {
             // Ignore any requested modules... MonoGame is all or nothing
 
@@ -36,7 +33,7 @@ namespace Extended
             InitializeReflectedMembers();
             SDL2.LoadApi();
 
-            return KernelModuleTypes.All;
+            return KernelModules.All;
         }
 
         [UsedImplicitly]
@@ -57,7 +54,7 @@ namespace Extended
         public static void Run()
         {
             RunGameNoLoop();
-            App.OnLoop();
+            Kernel.LoopCallback(GetIsExiting);
             ExitGame();
         }
 
@@ -121,7 +118,7 @@ namespace Extended
 
             var doUpdateMethod = _baseGameType.GetMethod(
                 "DoUpdate", BindingFlags.NonPublic | BindingFlags.Instance);
-            doUpdateMethod!.Invoke(_game, new[] { new GameTime() });
+            doUpdateMethod!.Invoke(_game, new object[] { new GameTime() });
 
             SDL2.SDL_ShowWindow(_game.Window.Handle);
         }
@@ -141,6 +138,8 @@ namespace Extended
             var doExitingMethod = baseType.GetMethod(
                 "DoExiting", BindingFlags.NonPublic | BindingFlags.Instance);
             doExitingMethod!.Invoke(_game, null);
+
+            Kernel.QuitCallback?.Invoke();
         }
 
         private static void PumpEventsSDL2()

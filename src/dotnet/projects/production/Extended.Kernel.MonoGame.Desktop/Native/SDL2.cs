@@ -37,7 +37,7 @@ public static class SDL2
     private static string GetLibraryPath()
     {
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        var platform = App.Platform;
+        var platform = Kernel.Platform;
 
         return platform switch
         {
