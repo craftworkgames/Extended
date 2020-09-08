@@ -4,9 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{C9F2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C966E72-2BF4-4D72-9C68-E3C8BE308E0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended.Kernel", "projects\production\Extended.Kernel\Extended.Kernel.csproj", "{272D5C25-5A2D-4169-ACB8-7F765A000F27}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kernel", "Kernel", "{651DF86F-C2C4-4894-A28C-BC2CABF5ABF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended.Framework", "projects\production\Extended.Framework\Extended.Framework.csproj", "{272D5C25-5A2D-4169-ACB8-7F765A000F27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended", "projects\production\Extended\Extended.csproj", "{AEA2E93F-7AEE-4F1D-8D7D-32573A06D284}"
 EndProject
@@ -14,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{42
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E01-Triangle", "projects\example\E01-Triangle\E01-Triangle.csproj", "{83E5EEDF-15E1-456A-95E3-8CF243854E89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended.Kernel.MonoGame.Desktop", "projects\production\Extended.Kernel.MonoGame.Desktop\Extended.Kernel.MonoGame.Desktop.csproj", "{3B6433C6-C2E0-486B-A6F6-D48912C9DB8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended.Framework.MonoGame.DesktopOpenGL", "projects\production\Extended.Framework.MonoGame.DesktopOpenGL\Extended.Framework.MonoGame.DesktopOpenGL.csproj", "{3B6433C6-C2E0-486B-A6F6-D48912C9DB8D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MonoGame", "MonoGame", "{D98476CE-D810-4A74-8C8D-6E189E245785}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{2C6CDDBE-7CE7-4DE5-9D08-707717605B64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +42,10 @@ Global
 		{3B6433C6-C2E0-486B-A6F6-D48912C9DB8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{272D5C25-5A2D-4169-ACB8-7F765A000F27} = {651DF86F-C2C4-4894-A28C-BC2CABF5ABF0}
-		{C9F20EBF-DD3B-4908-9CCC-D1E1E02433DF} = {651DF86F-C2C4-4894-A28C-BC2CABF5ABF0}
 		{83E5EEDF-15E1-456A-95E3-8CF243854E89} = {427FF2FE-F19A-4686-BD29-C1968A614ACB}
 		{D98476CE-D810-4A74-8C8D-6E189E245785} = {C9F20EBF-DD3B-4908-9CCC-D1E1E02433DF}
 		{3B6433C6-C2E0-486B-A6F6-D48912C9DB8D} = {D98476CE-D810-4A74-8C8D-6E189E245785}
+		{272D5C25-5A2D-4169-ACB8-7F765A000F27} = {2C6CDDBE-7CE7-4DE5-9D08-707717605B64}
+		{C9F20EBF-DD3B-4908-9CCC-D1E1E02433DF} = {2C6CDDBE-7CE7-4DE5-9D08-707717605B64}
 	EndGlobalSection
 EndGlobal

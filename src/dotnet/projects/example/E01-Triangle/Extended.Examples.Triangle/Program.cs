@@ -10,24 +10,23 @@ namespace Extended.Examples.Triangle
         private static void Main()
         {
             var appDescriptor = default(AppDescriptor);
+            appDescriptor.FixedElapsedTime = TimeSpan.Zero;
             appDescriptor.Callbacks.Log = Log;
-            appDescriptor.Callbacks.Loop = GameLoop;
+            appDescriptor.Callbacks.Draw = Draw;
+            appDescriptor.Callbacks.Update = Update;
 
             App.Setup(appDescriptor);
             App.Run();
         }
 
-        private static void GameLoop(IsExitingFunc isExiting)
+        private static void Update(TimeSpan totalTime, TimeSpan elapsedTime)
         {
-            while (true)
-            {
-                App.PumpEvents();
+            Extended.Log.Debug("Test update!\t" + elapsedTime.TotalMilliseconds);
+        }
 
-                if (isExiting())
-                {
-                    break;
-                }
-            }
+        private static void Draw(TimeSpan totalTime, TimeSpan elapsedTime, float remainderFraction)
+        {
+            Extended.Log.Debug("Test draw!\t" + elapsedTime.TotalMilliseconds);
         }
 
         private static void Log(LogLevel level, string message, long category)
