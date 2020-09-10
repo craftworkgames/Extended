@@ -5,5 +5,5 @@ using System;
 
 namespace Extended
 {
-    public delegate void AppFixedUpdateCallback(TimeSpan totalTime, TimeSpan elapsedTime, uint stepCount);
+    public delegate void AppFixedUpdateCallback(TimeSpan totalTime, TimeSpan deltaTime, uint stepCount);
 }

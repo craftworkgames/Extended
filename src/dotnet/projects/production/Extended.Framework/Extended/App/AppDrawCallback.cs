@@ -5,5 +5,5 @@ using System;
 
 namespace Extended
 {
-    public delegate void AppDrawCallback(TimeSpan totalTime, TimeSpan elapsedTime, float remainderFraction);
+    public delegate void AppDrawCallback(TimeSpan totalTime, TimeSpan deltaTime, float remainderFraction);
 }

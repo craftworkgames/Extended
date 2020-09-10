@@ -2,169 +2,142 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using SDL;
+using Microsoft.Xna.Framework.Input;
 
 namespace Extended
 {
     public static class Keyboard
     {
-        private static uint _ticks;
+        private static KeyboardState _currentKeyboardState;
+        private static KeyboardState _previousKeyboardState;
 
-        internal static void Initialize()
+        internal static void HandleEvents(TimeSpan elapsedTime)
         {
-            _ticks = SDL2.SDL_GetTicks();
-        }
+            _previousKeyboardState = _currentKeyboardState;
+            _currentKeyboardState = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 
-        internal static unsafe void HandleEvents()
-        {
-            var previousTicks = _ticks;
-            _ticks = SDL2.SDL_GetTicks();
-
-            while (true)
+            for (var i = 0; i < Input.KeyboardButtonCount; i++)
             {
-                SDL_Event @event;
-                var eventCount = SDL2.SDL_PeepEvents(
-                    &@event,
-                    1,
-                    SDL_EventAction.SDL_GETEVENT,
-                    SDL_EventType.SDL_KEYDOWN,
-                    SDL_EventType.SDL_KEYUP);
-
-                if (eventCount == 0)
-                {
-                    break;
-                }
-
-                var keyEvent = @event.key;
-                var key = MapKey(keyEvent.keysym.scancode);
-                var isDown = keyEvent.state == 1;
-                var millisecondsDuration = (int)(keyEvent.timestamp - previousTicks);
-                var duration = new TimeSpan(0, 0, 0, 0, millisecondsDuration);
-
-                Input.UpdateKeyButton(key, isDown, duration);
+                var key = (Keys)i;
+                var keyboardKey = Map(key);
+                var isDown = _currentKeyboardState.IsKeyDown(key);
+                Input.UpdateKeyboardButton(keyboardKey, isDown, elapsedTime);
             }
         }
 
-        private static KeyboardKey MapKey(SDL_Scancode scanCode)
+        private static KeyboardKey Map(Keys key)
         {
-            return scanCode switch
+            return key switch
             {
-                SDL_Scancode.SDL_SCANCODE_A => KeyboardKey.A,
-                SDL_Scancode.SDL_SCANCODE_B => KeyboardKey.B,
-                SDL_Scancode.SDL_SCANCODE_C => KeyboardKey.C,
-                SDL_Scancode.SDL_SCANCODE_D => KeyboardKey.D,
-                SDL_Scancode.SDL_SCANCODE_E => KeyboardKey.E,
-                SDL_Scancode.SDL_SCANCODE_F => KeyboardKey.F,
-                SDL_Scancode.SDL_SCANCODE_G => KeyboardKey.G,
-                SDL_Scancode.SDL_SCANCODE_H => KeyboardKey.H,
-                SDL_Scancode.SDL_SCANCODE_I => KeyboardKey.I,
-                SDL_Scancode.SDL_SCANCODE_J => KeyboardKey.J,
-                SDL_Scancode.SDL_SCANCODE_K => KeyboardKey.K,
-                SDL_Scancode.SDL_SCANCODE_L => KeyboardKey.L,
-                SDL_Scancode.SDL_SCANCODE_M => KeyboardKey.M,
-                SDL_Scancode.SDL_SCANCODE_N => KeyboardKey.N,
-                SDL_Scancode.SDL_SCANCODE_O => KeyboardKey.O,
-                SDL_Scancode.SDL_SCANCODE_P => KeyboardKey.P,
-                SDL_Scancode.SDL_SCANCODE_Q => KeyboardKey.Q,
-                SDL_Scancode.SDL_SCANCODE_R => KeyboardKey.R,
-                SDL_Scancode.SDL_SCANCODE_S => KeyboardKey.S,
-                SDL_Scancode.SDL_SCANCODE_T => KeyboardKey.T,
-                SDL_Scancode.SDL_SCANCODE_U => KeyboardKey.U,
-                SDL_Scancode.SDL_SCANCODE_V => KeyboardKey.V,
-                SDL_Scancode.SDL_SCANCODE_W => KeyboardKey.W,
-                SDL_Scancode.SDL_SCANCODE_X => KeyboardKey.X,
-                SDL_Scancode.SDL_SCANCODE_Y => KeyboardKey.Y,
-                SDL_Scancode.SDL_SCANCODE_Z => KeyboardKey.Z,
-                SDL_Scancode.SDL_SCANCODE_1 => KeyboardKey.Number1,
-                SDL_Scancode.SDL_SCANCODE_2 => KeyboardKey.Number2,
-                SDL_Scancode.SDL_SCANCODE_3 => KeyboardKey.Number3,
-                SDL_Scancode.SDL_SCANCODE_4 => KeyboardKey.Number4,
-                SDL_Scancode.SDL_SCANCODE_5 => KeyboardKey.Number5,
-                SDL_Scancode.SDL_SCANCODE_6 => KeyboardKey.Number6,
-                SDL_Scancode.SDL_SCANCODE_7 => KeyboardKey.Number7,
-                SDL_Scancode.SDL_SCANCODE_8 => KeyboardKey.Number8,
-                SDL_Scancode.SDL_SCANCODE_9 => KeyboardKey.Number9,
-                SDL_Scancode.SDL_SCANCODE_0 => KeyboardKey.Number0,
-                SDL_Scancode.SDL_SCANCODE_RETURN => KeyboardKey.Enter,
-                SDL_Scancode.SDL_SCANCODE_ESCAPE => KeyboardKey.Escape,
-                SDL_Scancode.SDL_SCANCODE_BACKSPACE => KeyboardKey.BackSpace,
-                SDL_Scancode.SDL_SCANCODE_TAB => KeyboardKey.Tab,
-                SDL_Scancode.SDL_SCANCODE_SPACE => KeyboardKey.Space,
-                SDL_Scancode.SDL_SCANCODE_MINUS => KeyboardKey.Minus,
-                SDL_Scancode.SDL_SCANCODE_EQUALS => KeyboardKey.Plus,
-                SDL_Scancode.SDL_SCANCODE_LEFTBRACKET => KeyboardKey.BracketLeft,
-                SDL_Scancode.SDL_SCANCODE_RIGHTBRACKET => KeyboardKey.BracketRight,
-                SDL_Scancode.SDL_SCANCODE_BACKSLASH => KeyboardKey.BackSlash,
-                SDL_Scancode.SDL_SCANCODE_SEMICOLON => KeyboardKey.Semicolon,
-                SDL_Scancode.SDL_SCANCODE_APOSTROPHE => KeyboardKey.Quote,
-                SDL_Scancode.SDL_SCANCODE_GRAVE => KeyboardKey.Grave,
-                SDL_Scancode.SDL_SCANCODE_COMMA => KeyboardKey.Comma,
-                SDL_Scancode.SDL_SCANCODE_PERIOD => KeyboardKey.Period,
-                SDL_Scancode.SDL_SCANCODE_SLASH => KeyboardKey.Slash,
-                SDL_Scancode.SDL_SCANCODE_CAPSLOCK => KeyboardKey.CapsLock,
-                SDL_Scancode.SDL_SCANCODE_F1 => KeyboardKey.F1,
-                SDL_Scancode.SDL_SCANCODE_F2 => KeyboardKey.F2,
-                SDL_Scancode.SDL_SCANCODE_F3 => KeyboardKey.F3,
-                SDL_Scancode.SDL_SCANCODE_F4 => KeyboardKey.F4,
-                SDL_Scancode.SDL_SCANCODE_F5 => KeyboardKey.F5,
-                SDL_Scancode.SDL_SCANCODE_F6 => KeyboardKey.F6,
-                SDL_Scancode.SDL_SCANCODE_F7 => KeyboardKey.F7,
-                SDL_Scancode.SDL_SCANCODE_F8 => KeyboardKey.F8,
-                SDL_Scancode.SDL_SCANCODE_F9 => KeyboardKey.F9,
-                SDL_Scancode.SDL_SCANCODE_F10 => KeyboardKey.F10,
-                SDL_Scancode.SDL_SCANCODE_F11 => KeyboardKey.F11,
-                SDL_Scancode.SDL_SCANCODE_F12 => KeyboardKey.F12,
-                SDL_Scancode.SDL_SCANCODE_PRINTSCREEN => KeyboardKey.PrintScreen,
-                SDL_Scancode.SDL_SCANCODE_SCROLLLOCK => KeyboardKey.ScrollLock,
-                SDL_Scancode.SDL_SCANCODE_PAUSE => KeyboardKey.Pause,
-                SDL_Scancode.SDL_SCANCODE_INSERT => KeyboardKey.Insert,
-                SDL_Scancode.SDL_SCANCODE_HOME => KeyboardKey.Home,
-                SDL_Scancode.SDL_SCANCODE_PAGEUP => KeyboardKey.PageUp,
-                SDL_Scancode.SDL_SCANCODE_DELETE => KeyboardKey.Delete,
-                SDL_Scancode.SDL_SCANCODE_END => KeyboardKey.End,
-                SDL_Scancode.SDL_SCANCODE_PAGEDOWN => KeyboardKey.PageDown,
-                SDL_Scancode.SDL_SCANCODE_RIGHT => KeyboardKey.Right,
-                SDL_Scancode.SDL_SCANCODE_LEFT => KeyboardKey.Left,
-                SDL_Scancode.SDL_SCANCODE_DOWN => KeyboardKey.Down,
-                SDL_Scancode.SDL_SCANCODE_UP => KeyboardKey.Up,
-                SDL_Scancode.SDL_SCANCODE_NUMLOCKCLEAR => KeyboardKey.NumLock,
-                SDL_Scancode.SDL_SCANCODE_KP_DIVIDE => KeyboardKey.KeypadDivide,
-                SDL_Scancode.SDL_SCANCODE_KP_MULTIPLY => KeyboardKey.KeypadMultiply,
-                SDL_Scancode.SDL_SCANCODE_KP_MINUS => KeyboardKey.KeypadMinus,
-                SDL_Scancode.SDL_SCANCODE_KP_PLUS => KeyboardKey.KeypadPlus,
-                SDL_Scancode.SDL_SCANCODE_KP_ENTER => KeyboardKey.KeypadEnter,
-                SDL_Scancode.SDL_SCANCODE_KP_1 => KeyboardKey.Keypad1,
-                SDL_Scancode.SDL_SCANCODE_KP_2 => KeyboardKey.Keypad2,
-                SDL_Scancode.SDL_SCANCODE_KP_3 => KeyboardKey.Keypad3,
-                SDL_Scancode.SDL_SCANCODE_KP_4 => KeyboardKey.Keypad4,
-                SDL_Scancode.SDL_SCANCODE_KP_5 => KeyboardKey.Keypad5,
-                SDL_Scancode.SDL_SCANCODE_KP_6 => KeyboardKey.Keypad6,
-                SDL_Scancode.SDL_SCANCODE_KP_7 => KeyboardKey.Keypad7,
-                SDL_Scancode.SDL_SCANCODE_KP_8 => KeyboardKey.Keypad8,
-                SDL_Scancode.SDL_SCANCODE_KP_9 => KeyboardKey.Keypad9,
-                SDL_Scancode.SDL_SCANCODE_KP_0 => KeyboardKey.Keypad0,
-                SDL_Scancode.SDL_SCANCODE_KP_PERIOD => KeyboardKey.KeypadPeriod,
-                SDL_Scancode.SDL_SCANCODE_NONUSBACKSLASH => KeyboardKey.NonUsBackSlash,
-                SDL_Scancode.SDL_SCANCODE_KP_EQUALS => KeyboardKey.KeypadPlus,
-                SDL_Scancode.SDL_SCANCODE_F13 => KeyboardKey.F13,
-                SDL_Scancode.SDL_SCANCODE_F14 => KeyboardKey.F14,
-                SDL_Scancode.SDL_SCANCODE_F15 => KeyboardKey.F15,
-                SDL_Scancode.SDL_SCANCODE_F16 => KeyboardKey.F16,
-                SDL_Scancode.SDL_SCANCODE_F17 => KeyboardKey.F17,
-                SDL_Scancode.SDL_SCANCODE_F18 => KeyboardKey.F18,
-                SDL_Scancode.SDL_SCANCODE_F19 => KeyboardKey.F19,
-                SDL_Scancode.SDL_SCANCODE_F20 => KeyboardKey.F20,
-                SDL_Scancode.SDL_SCANCODE_F21 => KeyboardKey.F21,
-                SDL_Scancode.SDL_SCANCODE_F22 => KeyboardKey.F22,
-                SDL_Scancode.SDL_SCANCODE_F23 => KeyboardKey.F23,
-                SDL_Scancode.SDL_SCANCODE_F24 => KeyboardKey.F24,
-                SDL_Scancode.SDL_SCANCODE_MENU => KeyboardKey.Menu,
-                SDL_Scancode.SDL_SCANCODE_LCTRL => KeyboardKey.ControlLeft,
-                SDL_Scancode.SDL_SCANCODE_LSHIFT => KeyboardKey.ShiftLeft,
-                SDL_Scancode.SDL_SCANCODE_LALT => KeyboardKey.AltLeft,
-                SDL_Scancode.SDL_SCANCODE_RCTRL => KeyboardKey.ControlRight,
-                SDL_Scancode.SDL_SCANCODE_RSHIFT => KeyboardKey.ShiftRight,
-                SDL_Scancode.SDL_SCANCODE_RALT => KeyboardKey.AltRight,
+                Keys.A => KeyboardKey.A,
+                Keys.B => KeyboardKey.B,
+                Keys.C => KeyboardKey.C,
+                Keys.D => KeyboardKey.D,
+                Keys.E => KeyboardKey.E,
+                Keys.F => KeyboardKey.F,
+                Keys.G => KeyboardKey.G,
+                Keys.H => KeyboardKey.H,
+                Keys.I => KeyboardKey.I,
+                Keys.J => KeyboardKey.J,
+                Keys.K => KeyboardKey.K,
+                Keys.L => KeyboardKey.L,
+                Keys.M => KeyboardKey.M,
+                Keys.N => KeyboardKey.N,
+                Keys.O => KeyboardKey.O,
+                Keys.P => KeyboardKey.P,
+                Keys.Q => KeyboardKey.Q,
+                Keys.R => KeyboardKey.R,
+                Keys.S => KeyboardKey.S,
+                Keys.T => KeyboardKey.T,
+                Keys.U => KeyboardKey.U,
+                Keys.V => KeyboardKey.V,
+                Keys.W => KeyboardKey.W,
+                Keys.X => KeyboardKey.X,
+                Keys.Y => KeyboardKey.Y,
+                Keys.Z => KeyboardKey.Z,
+                Keys.D1 => KeyboardKey.Number1,
+                Keys.D2 => KeyboardKey.Number2,
+                Keys.D3 => KeyboardKey.Number3,
+                Keys.D4 => KeyboardKey.Number4,
+                Keys.D5 => KeyboardKey.Number5,
+                Keys.D6 => KeyboardKey.Number6,
+                Keys.D7 => KeyboardKey.Number7,
+                Keys.D8 => KeyboardKey.Number8,
+                Keys.D9 => KeyboardKey.Number9,
+                Keys.D0 => KeyboardKey.Number0,
+                Keys.Enter => KeyboardKey.Enter,
+                Keys.Escape => KeyboardKey.Escape,
+                Keys.Back => KeyboardKey.BackSpace,
+                Keys.Tab => KeyboardKey.Tab,
+                Keys.Space => KeyboardKey.Space,
+                Keys.OemMinus => KeyboardKey.Minus,
+                Keys.OemPlus => KeyboardKey.Plus,
+                Keys.OemOpenBrackets => KeyboardKey.BracketLeft,
+                Keys.OemCloseBrackets => KeyboardKey.BracketRight,
+                Keys.OemBackslash => KeyboardKey.BackSlash,
+                Keys.OemSemicolon => KeyboardKey.Semicolon,
+                Keys.OemQuotes => KeyboardKey.Quote,
+                Keys.OemTilde => KeyboardKey.Grave,
+                Keys.OemComma => KeyboardKey.Comma,
+                Keys.OemPeriod => KeyboardKey.Period,
+                Keys.OemQuestion => KeyboardKey.Slash,
+                Keys.CapsLock => KeyboardKey.CapsLock,
+                Keys.F1 => KeyboardKey.F1,
+                Keys.F2 => KeyboardKey.F2,
+                Keys.F3 => KeyboardKey.F3,
+                Keys.F4 => KeyboardKey.F4,
+                Keys.F5 => KeyboardKey.F5,
+                Keys.F6 => KeyboardKey.F6,
+                Keys.F7 => KeyboardKey.F7,
+                Keys.F8 => KeyboardKey.F8,
+                Keys.F9 => KeyboardKey.F9,
+                Keys.F10 => KeyboardKey.F10,
+                Keys.F11 => KeyboardKey.F11,
+                Keys.F12 => KeyboardKey.F12,
+                Keys.F13 => KeyboardKey.F13,
+                Keys.F14 => KeyboardKey.F14,
+                Keys.F15 => KeyboardKey.F15,
+                Keys.F16 => KeyboardKey.F16,
+                Keys.F17 => KeyboardKey.F17,
+                Keys.F18 => KeyboardKey.F18,
+                Keys.F19 => KeyboardKey.F19,
+                Keys.F20 => KeyboardKey.F20,
+                Keys.F21 => KeyboardKey.F21,
+                Keys.F22 => KeyboardKey.F22,
+                Keys.F23 => KeyboardKey.F23,
+                Keys.F24 => KeyboardKey.F24,
+                Keys.PrintScreen => KeyboardKey.PrintScreen,
+                Keys.Scroll => KeyboardKey.ScrollLock,
+                Keys.Pause => KeyboardKey.Pause,
+                Keys.Insert => KeyboardKey.Insert,
+                Keys.Home => KeyboardKey.Home,
+                Keys.PageUp => KeyboardKey.PageUp,
+                Keys.Delete => KeyboardKey.Delete,
+                Keys.End => KeyboardKey.End,
+                Keys.PageDown => KeyboardKey.PageDown,
+                Keys.Right => KeyboardKey.Right,
+                Keys.Left => KeyboardKey.Left,
+                Keys.Down => KeyboardKey.Down,
+                Keys.Up => KeyboardKey.Up,
+                Keys.NumLock => KeyboardKey.NumLock,
+                Keys.Divide => KeyboardKey.KeypadDivide,
+                Keys.Multiply => KeyboardKey.KeypadMultiply,
+                Keys.NumPad1 => KeyboardKey.Keypad1,
+                Keys.NumPad2 => KeyboardKey.Keypad2,
+                Keys.NumPad3 => KeyboardKey.Keypad3,
+                Keys.NumPad4 => KeyboardKey.Keypad4,
+                Keys.NumPad5 => KeyboardKey.Keypad5,
+                Keys.NumPad6 => KeyboardKey.Keypad6,
+                Keys.NumPad7 => KeyboardKey.Keypad7,
+                Keys.NumPad8 => KeyboardKey.Keypad8,
+                Keys.NumPad9 => KeyboardKey.Keypad9,
+                Keys.NumPad0 => KeyboardKey.Keypad0,
+                Keys.LeftControl => KeyboardKey.ControlLeft,
+                Keys.LeftShift => KeyboardKey.ShiftLeft,
+                Keys.LeftAlt => KeyboardKey.AltLeft,
+                Keys.RightControl => KeyboardKey.ControlRight,
+                Keys.RightShift => KeyboardKey.ShiftRight,
+                Keys.RightAlt => KeyboardKey.AltRight,
                 _ => KeyboardKey.Unknown
             };
         }

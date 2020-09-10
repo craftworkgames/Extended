@@ -7,24 +7,46 @@ namespace Extended
 {
     public static class Input
     {
-        private const int KeyButtonCount = 256;
-        private const int MouseButtonCount = 13;
+        public const int KeyboardButtonCount = 256;
+        public const int MouseButtonCount = 13;
 
-        private static readonly ButtonState[] _buttonStates = new ButtonState[KeyButtonCount + MouseButtonCount];
+        private static readonly InputButton[] _buttonStates = new InputButton[KeyboardButtonCount + MouseButtonCount];
 
-        public static ButtonState KeyButton(KeyboardKey key)
+        public static event KeyboardKeyCallback? KeyPressed;
+
+        public static event KeyboardKeyCallback? KeyReleased;
+
+        public static event KeyboardKeyCallback? KeyRepeated;
+
+        public static InputButton KeyboardButton(KeyboardKey key)
         {
             return _buttonStates[(int)key];
         }
 
-        public static ButtonState MouseButton(MouseButton mouseButton)
+        public static InputButton MouseButton(MouseButton mouseButton)
         {
             return _buttonStates[256 + (int)mouseButton];
         }
 
-        internal static void UpdateKeyButton(KeyboardKey key, bool isDown, in TimeSpan elapsedTime)
+        public static void UpdateKeyboardButton(KeyboardKey key, bool isDown, in TimeSpan elapsedTime)
         {
-            ButtonState.Update(ref _buttonStates[(int)key], isDown, elapsedTime);
+            ref var button = ref _buttonStates[(int)key];
+            InputButton.Update(ref button, isDown, elapsedTime);
+
+            if (button.IsPressed)
+            {
+                KeyPressed?.Invoke(button, key);
+            }
+
+            if (button.IsReleased)
+            {
+                KeyReleased?.Invoke(button, key);
+            }
+
+            if (button.IsRepeated)
+            {
+                KeyRepeated?.Invoke(button, key);
+            }
         }
     }
 }

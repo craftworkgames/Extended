@@ -9,10 +9,17 @@ namespace Extended
     {
         public GameRoot()
         {
+            IsFixedTimeStep = false;
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            FrameworkDriver.UpdateLoop(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            FrameworkDriver.DrawLoop(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
         }
     }
 }

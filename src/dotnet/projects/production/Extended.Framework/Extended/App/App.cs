@@ -12,11 +12,9 @@ namespace Extended
     {
         public static NativePlatform Platform => Framework.Platform;
 
-        public static bool IsFixedTimeStep { get; private set; }
+        public static TimeSpan FixedDeltaTime { get; private set; }
 
-        public static TimeSpan FixedElapsedTime { get; private set; }
-
-        public static TimeSpan MaximumElapsedTime { get; private set; }
+        public static TimeSpan MaximumDeltaTime { get; private set; }
 
         public static TimeSpan MaximumAccumulatedTime { get; private set; }
 
@@ -30,9 +28,8 @@ namespace Extended
 
         public static void Setup(AppDescriptor descriptor)
         {
-            IsFixedTimeStep = descriptor.IsFixedTimeStep;
-            FixedElapsedTime = descriptor.FixedElapsedTime ?? TimeSpan.FromSeconds(1 / 60D);
-            MaximumElapsedTime = descriptor.MaximumElapsedTime ?? TimeSpan.FromSeconds(5);
+            FixedDeltaTime = descriptor.FixedElapsedTime ?? TimeSpan.FromSeconds(1 / 60D);
+            MaximumDeltaTime = descriptor.MaximumElapsedTime ?? TimeSpan.FromSeconds(5);
             MaximumAccumulatedTime = descriptor.MaximumAccumulatedTime ?? TimeSpan.FromSeconds(5);
             SetCallbacks(ref descriptor.Callbacks);
 
