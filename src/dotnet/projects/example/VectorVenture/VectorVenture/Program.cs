@@ -2,8 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using Extended;
 
-namespace Extended.Examples.Triangle
+namespace VectorVenture
 {
     internal static class Program
     {

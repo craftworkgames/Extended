@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended", "projects\produc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{427FF2FE-F19A-4686-BD29-C1968A614ACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E01-Triangle", "projects\example\E01-Triangle\E01-Triangle.csproj", "{83E5EEDF-15E1-456A-95E3-8CF243854E89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorVenture", "projects\example\VectorVenture\VectorVenture.csproj", "{83E5EEDF-15E1-456A-95E3-8CF243854E89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extended.Framework.MonoGame.DesktopOpenGL", "projects\production\Extended.Framework.MonoGame.DesktopOpenGL\Extended.Framework.MonoGame.DesktopOpenGL.csproj", "{3B6433C6-C2E0-486B-A6F6-D48912C9DB8D}"
 EndProject
