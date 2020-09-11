@@ -3,5 +3,5 @@
 
 namespace Extended
 {
-    public delegate void KeyboardKeyCallback(InputButton button, KeyboardKey key);
+    public delegate void KeyboardButtonCallback(InputButtonState state, KeyboardButton button);
 }

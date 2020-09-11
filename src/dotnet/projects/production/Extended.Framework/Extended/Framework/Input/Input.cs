@@ -7,45 +7,73 @@ namespace Extended
 {
     public static class Input
     {
+        public const int TotalButtonCount = KeyboardButtonCount + MouseButtonCount;
         public const int KeyboardButtonCount = 256;
-        public const int MouseButtonCount = 13;
+        public const int MouseButtonCount = 5;
 
-        private static readonly InputButton[] _buttonStates = new InputButton[KeyboardButtonCount + MouseButtonCount];
+        private static readonly InputButtonState[] _buttonStates = new InputButtonState[TotalButtonCount];
 
-        public static event KeyboardKeyCallback? KeyPressed;
+        public static event KeyboardButtonCallback? KeyPressed;
 
-        public static event KeyboardKeyCallback? KeyReleased;
+        public static event KeyboardButtonCallback? KeyReleased;
 
-        public static event KeyboardKeyCallback? KeyRepeated;
+        public static event KeyboardButtonCallback? KeyRepeated;
 
-        public static InputButton KeyboardButton(KeyboardKey key)
+        public static event MouseButtonCallback? MousePressed;
+
+        public static event MouseButtonCallback? MouseReleased;
+
+        public static event MouseButtonCallback? MouseRepeated;
+
+        public static InputButtonState KeyboardButton(KeyboardButton button)
         {
-            return _buttonStates[(int)key];
+            return _buttonStates[(int)button];
         }
 
-        public static InputButton MouseButton(MouseButton mouseButton)
+        public static InputButtonState MouseButton(MouseButton button)
         {
-            return _buttonStates[256 + (int)mouseButton];
+            return _buttonStates[KeyboardButtonCount + (int)button];
         }
 
-        public static void UpdateKeyboardButton(KeyboardKey key, bool isDown, in TimeSpan elapsedTime)
+        public static void UpdateKeyboardButton(KeyboardButton keyboardButton, bool isDown, TimeSpan elapsedTime)
         {
-            ref var button = ref _buttonStates[(int)key];
-            InputButton.Update(ref button, isDown, elapsedTime);
+            ref var state = ref _buttonStates[(int)keyboardButton];
+            InputButtonState.Update(ref state, isDown, elapsedTime);
 
-            if (button.IsPressed)
+            if (state.IsPressed)
             {
-                KeyPressed?.Invoke(button, key);
+                KeyPressed?.Invoke(state, keyboardButton);
             }
 
-            if (button.IsReleased)
+            if (state.IsReleased)
             {
-                KeyReleased?.Invoke(button, key);
+                KeyReleased?.Invoke(state, keyboardButton);
             }
 
-            if (button.IsRepeated)
+            if (state.IsRepeated)
             {
-                KeyRepeated?.Invoke(button, key);
+                KeyRepeated?.Invoke(state, keyboardButton);
+            }
+        }
+
+        public static void UpdateMouseButton(MouseButton mouseButton, bool isDown, TimeSpan elapsedTime)
+        {
+            ref var state = ref _buttonStates[KeyboardButtonCount + (int)mouseButton];
+            InputButtonState.Update(ref state, isDown, elapsedTime);
+
+            if (state.IsPressed)
+            {
+                MousePressed?.Invoke(state, mouseButton);
+            }
+
+            if (state.IsReleased)
+            {
+                MouseReleased?.Invoke(state, mouseButton);
+            }
+
+            if (state.IsRepeated)
+            {
+                MouseRepeated?.Invoke(state, mouseButton);
             }
         }
     }

@@ -3,7 +3,7 @@
 
 namespace Extended
 {
-    public enum KeyboardKey
+    public enum KeyboardButton
     {
         Unknown = 0,
         ShiftLeft = 1,

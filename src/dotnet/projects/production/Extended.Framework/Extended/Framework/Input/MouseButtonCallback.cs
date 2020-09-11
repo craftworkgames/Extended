@@ -3,12 +3,5 @@
 
 namespace Extended
 {
-    public enum MouseButton
-    {
-        Left = 0,
-        Middle = 1,
-        Right = 2,
-        X1 = 3,
-        X2 = 4
-    }
+    public delegate void MouseButtonCallback(InputButtonState state, MouseButton button);
 }

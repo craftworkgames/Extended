@@ -105,10 +105,11 @@ namespace Extended
             App.QuitCallback();
         }
 
-        private static void PumpEvents(TimeSpan elapsedTime)
+        private static void PumpEvents(TimeSpan deltaTime)
         {
             Window.HandleEvents();
-            Keyboard.HandleEvents(elapsedTime);
+            Keyboard.Update(deltaTime);
+            Mouse.Update(deltaTime);
         }
     }
 }

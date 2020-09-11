@@ -6,12 +6,12 @@ using System.Runtime.CompilerServices;
 
 namespace Extended
 {
-    public readonly struct InputButton
+    public readonly struct InputButtonState
     {
         public readonly TimeSpan DownDuration;
         public readonly byte State;
 
-        internal InputButton(TimeSpan downDuration, byte pressedState)
+        internal InputButtonState(TimeSpan downDuration, byte pressedState)
         {
             DownDuration = downDuration;
             State = pressedState;
@@ -59,7 +59,7 @@ namespace Extended
             get => State == 3;
         }
 
-        internal static void Update(ref InputButton button, bool isDown, TimeSpan elapsedTime)
+        internal static void Update(ref InputButtonState button, bool isDown, TimeSpan elapsedTime)
         {
             var byteIsDown = Convert.ToByte(isDown);
             var newPressedState = (byte)((button.State & 0x1) << 1 | byteIsDown);
@@ -74,7 +74,7 @@ namespace Extended
                 downDuration = TimeSpan.Zero;
             }
 
-            button = new InputButton(downDuration, newPressedState);
+            button = new InputButtonState(downDuration, newPressedState);
         }
     }
 }
